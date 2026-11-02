@@ -13,3 +13,4 @@ jobs:
       - run: terraform fmt -check -recursive
       - run: terraform -chdir=terraform init -backend=false
       - run: terraform -chdir=terraform validate -no-color
+      - run: terraform -chdir=terraform test -no-color
