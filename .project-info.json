@@ -1,0 +1,7 @@
+{
+  "name": "infrastructure-as-code-lab",
+  "title": "Infrastructure as Code Lab",
+  "stage": "MVP inicial",
+  "owner": "juniordev830",
+  "publishing_requires_authentication": true
+}
