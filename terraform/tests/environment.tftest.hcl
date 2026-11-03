@@ -26,3 +26,23 @@ run "reject_unknown_environment" {
 
   expect_failures = [var.environment]
 }
+
+run "reject_invalid_owner" {
+  command = plan
+
+  variables {
+    owner = " "
+  }
+
+  expect_failures = [var.owner]
+}
+
+run "reject_invalid_service_name" {
+  command = plan
+
+  variables {
+    service_name = "Inventory API"
+  }
+
+  expect_failures = [var.service_name]
+}
