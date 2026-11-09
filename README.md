@@ -25,6 +25,16 @@ terraform -chdir=terraform test
 
 Com o Terraform 1.9.8, os testes confirmam que o plano preserva os metadados e rejeita ambientes desconhecidos. O GitHub Actions executa as mesmas verificações em pushes e pull requests.
 
+## Simulacao de orcamento (sem cloud)
+
+O laboratório agora oferece uma comparação **informativa** entre estimativa mensal e teto definido manualmente, sem acesso a faturas reais e sem provisionar recursos. `monthly_budget_usd = 0` desativa a comparação.
+
+```bash
+terraform -chdir=terraform plan -var="estimated_monthly_cost_usd=80" -var="monthly_budget_usd=100"
+```
+
+O `budget_summary` mostra o status `within_budget`, `over_budget` ou `not_configured` e a diferença entre orçamento e custo previsto. Valores acima do teto **não bloqueiam** o plano: a saída é apenas um aviso analítico. Os testes em `terraform/tests/budget.tftest.hcl` cobrem limites e validações.
+
 ## Segurança e limitações
 
 MVP não provisiona máquinas, redes nem recursos cloud. Não versionar arquivos `.tfstate` e credenciais. Use `terraform plan` antes de qualquer `apply` em projetos reais.
