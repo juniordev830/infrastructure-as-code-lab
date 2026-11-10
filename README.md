@@ -33,7 +33,7 @@ O laboratório agora oferece uma comparação **informativa** entre estimativa m
 terraform -chdir=terraform plan -var="estimated_monthly_cost_usd=80" -var="monthly_budget_usd=100"
 ```
 
-O `budget_summary` mostra o status `within_budget`, `over_budget` ou `not_configured` e a diferença entre orçamento e custo previsto. Valores acima do teto **não bloqueiam** o plano: a saída é apenas um aviso analítico. Os testes em `terraform/tests/budget.tftest.hcl` cobrem limites e validações.
+O `budget_summary` mostra o status `within_budget`, `over_budget` ou `not_configured`, a diferença entre orçamento e custo previsto e `utilization_percent` (percentual utilizado). Quando o orçamento é zero, `remaining_usd` e `utilization_percent` são `null` para evitar divisão por zero. Valores acima do teto **não bloqueiam** o plano: a saída é apenas um aviso analítico. Os testes em `terraform/tests/budget.tftest.hcl` cobrem limites e validações.
 
 ## Segurança e limitações
 
