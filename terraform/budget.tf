@@ -35,5 +35,6 @@ output "budget_summary" {
     monthly_budget_usd         = var.monthly_budget_usd
     status                     = local.budget_status
     remaining_usd              = var.monthly_budget_usd == 0 ? null : var.monthly_budget_usd - var.estimated_monthly_cost_usd
+    utilization_percent        = var.monthly_budget_usd == 0 ? null : var.estimated_monthly_cost_usd / var.monthly_budget_usd * 100
   }
 }
