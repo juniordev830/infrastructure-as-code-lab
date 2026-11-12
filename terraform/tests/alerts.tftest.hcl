@@ -47,7 +47,9 @@ run "warning_begins_at_exact_threshold" {
     condition = (
       output.forecast_warning_summary.status == "warning" &&
       output.forecast_warning_summary.warning_threshold_percent == 80 &&
-      output.forecast_warning_summary.warning_months == [1, 2] &&
+      length(output.forecast_warning_summary.warning_months) == 2 &&
+      output.forecast_warning_summary.warning_months[0] == 1 &&
+      output.forecast_warning_summary.warning_months[1] == 2 &&
       output.forecast_warning_summary.first_warning_month == 1
     )
     error_message = "The threshold is inclusive and should detect both months."
@@ -66,7 +68,8 @@ run "warning_at_budget_limit_is_not_overage" {
   assert {
     condition = (
       output.forecast_warning_summary.status == "warning" &&
-      output.forecast_warning_summary.warning_months == [1] &&
+      length(output.forecast_warning_summary.warning_months) == 1 &&
+      output.forecast_warning_summary.warning_months[0] == 1 &&
       length(output.forecast_warning_summary.over_budget_months) == 0
     )
     error_message = "Exact budget equality must be a warning rather than an overage."
@@ -86,8 +89,11 @@ run "over_budget_takes_precedence_over_warning" {
   assert {
     condition = (
       output.forecast_warning_summary.status == "over_budget" &&
-      output.forecast_warning_summary.warning_months == [1] &&
-      output.forecast_warning_summary.over_budget_months == [2, 3]
+      length(output.forecast_warning_summary.warning_months) == 1 &&
+      output.forecast_warning_summary.warning_months[0] == 1 &&
+      length(output.forecast_warning_summary.over_budget_months) == 2 &&
+      output.forecast_warning_summary.over_budget_months[0] == 2 &&
+      output.forecast_warning_summary.over_budget_months[1] == 3
     )
     error_message = "Forecast risk must prioritize breached months while preserving earlier warnings."
   }
