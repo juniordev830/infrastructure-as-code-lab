@@ -6,3 +6,7 @@ service_name = "demo-api"
 # estimated_monthly_cost_usd = 80
 # monthly_budget_usd         = 100
 # enforce_budget_limit       = true
+
+# Optional compounded forecast (1-24 months; percentages from -100 to 100).
+# monthly_growth_rate_percent = 10
+# forecast_months             = 3
