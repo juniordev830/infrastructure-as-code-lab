@@ -10,7 +10,7 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: '1.9.8'
-      - run: terraform fmt -check -recursive
+      - run: terraform fmt -check -diff -recursive
       - run: terraform -chdir=terraform init -backend=false
       - run: terraform -chdir=terraform validate -no-color
       - run: terraform -chdir=terraform test -no-color
