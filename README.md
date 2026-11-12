@@ -49,6 +49,18 @@ Para conferir a rejeição, altere a estimativa de `80` para `120` no comando ac
 
 > **Importante:** o controle compara números fornecidos manualmente; não consulta gastos reais, não impede cobranças externas e não provisiona infraestrutura.
 
+### Projeção mensal de custos (sem cloud)
+
+Para simular uma trajetória de gastos, defina a taxa percentual de crescimento mensal e a quantidade de meses (1 a 24):
+
+```bash
+terraform -chdir=terraform plan -var="estimated_monthly_cost_usd=95" -var="monthly_budget_usd=100" -var="monthly_growth_rate_percent=10" -var="forecast_months=3"
+```
+
+A saída `forecast_summary.monthly_projection` calcula a partir do primeiro mês **95,00 → 104,50 → 114,95 USD**. Cada mês possui o campo `exceeds_budget`; ele fica `null` quando não há orçamento definido. A taxa aceita entre -100% e 100% e os valores são arredondados a centavos.
+
+O bloqueio `enforce_budget_limit`, quando ativado, verifica **somente o custo estimado inicial**, não meses futuros. A projeção é um alerta ilustrativo, não uma previsão de faturas reais.
+
 ## Segurança e limitações
 
 MVP não provisiona máquinas, redes nem recursos cloud. Não versionar arquivos `.tfstate` e credenciais. Use `terraform plan` antes de qualquer `apply` em projetos reais.
