@@ -49,6 +49,16 @@ A projeção é informativa por padrão. O controle `enforce_budget_limit` valid
 - Quando o primeiro mês estiver acima do limite e os custos forem decrescentes, o plano ainda deve falhar.
 - As opções `enforce_budget_limit` e `enforce_forecast_budget_limit` não devem ativar uma à outra implicitamente.
 
+## Cenários do limite acumulado do período
+
+- Sem `forecast_total_budget_usd`, o status deve ser `not_configured` e saldo e utilização devem ser `null`.
+- Com custo mensal de 80 USD durante três meses, custo acumulado de 240 USD e teto de 300 USD, conferir saldo 60 e utilização 80%.
+- Valor acumulado igual ao teto deve ser `within_budget`, não excesso.
+- Total de 300 USD e teto de 250 USD: `over_budget`, com saldo -50, sem bloquear o plano por padrão.
+- Com `enforce_forecast_total_budget=true`, bloquear somente se o total ultrapassar um teto positivo ou se o teto estiver ausente.
+- Confirmar independência entre `enforce_forecast_total_budget` e `enforce_forecast_budget_limit`: meses individualmente permitidos ainda podem violar o total.
+- Rejeitar valores negativos e valores acima de 240.000.000 USD para o orçamento acumulado.
+
 ## Cenários do alerta antecipado
 
 - Sem orçamento: `forecast_warning_summary.status=not_configured` e nenhum mês de aviso.
