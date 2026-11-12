@@ -49,6 +49,16 @@ A projeção é informativa por padrão. O controle `enforce_budget_limit` valid
 - Quando o primeiro mês estiver acima do limite e os custos forem decrescentes, o plano ainda deve falhar.
 - As opções `enforce_budget_limit` e `enforce_forecast_budget_limit` não devem ativar uma à outra implicitamente.
 
+## Cenários do alerta antecipado
+
+- Sem orçamento: `forecast_warning_summary.status=not_configured` e nenhum mês de aviso.
+- Com orçamento de 100 USD e estimativa de 79 USD: status `healthy` para limite de alerta padrão (80%).
+- Exatamente 80 USD (80%): o mês deve aparecer em `warning_months`.
+- Exatamente 100 USD: ainda é `warning`, **não** `over_budget`.
+- Estimativa 95 USD, orçamento 100, crescimento 10% em três meses: aviso no mês 1 e excesso nos meses 2 e 3, com `over_budget` como status geral.
+- O limite opcional de 90% deve substituir o padrão de 80%.
+- Valores de percentual negativos ou acima de 100 devem ser rejeitados.
+
 ## Cenários de rateio por serviços
 
 - Serviços `api=60` e `database=40` com total `100`: status `matched`, parcelas de 60% e 40%.
