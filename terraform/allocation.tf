@@ -46,7 +46,7 @@ output "allocation_summary" {
     estimated_total_usd     = var.estimated_monthly_cost_usd
     difference_usd          = local.allocated_delta_usd
     reconciled              = length(var.service_costs_usd) > 0 && local.allocation_matches
-    services = {
+    services                = {
       for name, cost in var.service_costs_usd : name => {
         monthly_cost_usd = cost
         share_percent    = local.allocated_total_usd == 0 ? null : floor(cost / local.allocated_total_usd * 10000 + 0.5) / 100
