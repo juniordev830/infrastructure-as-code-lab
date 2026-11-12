@@ -24,7 +24,7 @@ run "cumulative_budget_below_cap" {
   variables {
     estimated_monthly_cost_usd = 80
     forecast_months            = 3
-    forecast_total_budget_usd   = 300
+    forecast_total_budget_usd  = 300
   }
 
   assert {
@@ -44,7 +44,7 @@ run "cumulative_budget_exact_boundary" {
   variables {
     estimated_monthly_cost_usd = 100
     forecast_months            = 3
-    forecast_total_budget_usd   = 300
+    forecast_total_budget_usd  = 300
   }
 
   assert {
@@ -63,7 +63,7 @@ run "cumulative_budget_overage_is_advisory" {
   variables {
     estimated_monthly_cost_usd = 100
     forecast_months            = 3
-    forecast_total_budget_usd   = 250
+    forecast_total_budget_usd  = 250
   }
 
   assert {
@@ -80,10 +80,10 @@ run "cumulative_budget_enforcement_allows_safe_total" {
   command = plan
 
   variables {
-    estimated_monthly_cost_usd     = 80
-    forecast_months                = 3
-    forecast_total_budget_usd      = 240
-    enforce_forecast_total_budget  = true
+    estimated_monthly_cost_usd    = 80
+    forecast_months               = 3
+    forecast_total_budget_usd     = 240
+    enforce_forecast_total_budget = true
   }
 
   assert {
@@ -100,12 +100,12 @@ run "cumulative_enforcement_independent_from_monthly_cap" {
   command = plan
 
   variables {
-    estimated_monthly_cost_usd     = 80
-    monthly_budget_usd             = 100
-    forecast_months                = 3
-    enforce_forecast_budget_limit  = true
-    forecast_total_budget_usd      = 200
-    enforce_forecast_total_budget  = true
+    estimated_monthly_cost_usd    = 80
+    monthly_budget_usd            = 100
+    forecast_months               = 3
+    enforce_forecast_budget_limit = true
+    forecast_total_budget_usd     = 200
+    enforce_forecast_total_budget = true
   }
 
   expect_failures = [terraform_data.environment]
