@@ -13,7 +13,7 @@ variable "budget_warning_threshold_percent" {
 locals {
   forecast_warning_months = var.monthly_budget_usd == 0 ? [] : [
     for month in local.monthly_projection : month.month
-    if (
+    if(
       month.projected_cost_usd >= var.monthly_budget_usd * var.budget_warning_threshold_percent / 100 &&
       month.projected_cost_usd <= var.monthly_budget_usd
     )
@@ -29,11 +29,11 @@ locals {
 output "forecast_warning_summary" {
   description = "Advisory alert when a manually projected monthly cost approaches the configured budget."
   value = {
-    status                      = local.forecast_warning_status
-    warning_threshold_percent   = var.budget_warning_threshold_percent
-    warning_months              = local.forecast_warning_months
-    warning_month_count         = length(local.forecast_warning_months)
-    first_warning_month         = length(local.forecast_warning_months) == 0 ? null : local.forecast_warning_months[0]
-    over_budget_months          = local.forecast_budget_breaches
+    status                    = local.forecast_warning_status
+    warning_threshold_percent = var.budget_warning_threshold_percent
+    warning_months            = local.forecast_warning_months
+    warning_month_count       = length(local.forecast_warning_months)
+    first_warning_month       = length(local.forecast_warning_months) == 0 ? null : local.forecast_warning_months[0]
+    over_budget_months        = local.forecast_budget_breaches
   }
 }
