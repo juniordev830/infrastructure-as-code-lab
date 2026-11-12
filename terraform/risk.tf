@@ -28,6 +28,7 @@ output "forecast_risk_summary" {
   description = "Aggregate indicators derived from an illustrative forecast, not from real cloud invoices."
   value = {
     status              = local.forecast_risk_status
+    enforcement_enabled = var.enforce_forecast_budget_limit
     total_projected_usd = local.forecast_total_usd
     peak_monthly_usd    = local.forecast_peak_usd
     months_over_budget  = local.forecast_budget_breaches
