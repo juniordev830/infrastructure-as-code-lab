@@ -73,6 +73,22 @@ Esse exemplo falha, pois os meses 2 e 3 excedem 100 USD. Com `enforce_forecast_b
 
 As proteções são independentes: `enforce_budget_limit` verifica só o mês inicial e `enforce_forecast_budget_limit` verifica o horizonte inteiro. Nenhuma delas controla despesas reais em provedores de nuvem.
 
+### Orçamento acumulado para todo o período
+
+Além dos limites de cada mês, use `forecast_total_budget_usd` para definir um **teto total** para os meses projetados. A saída `forecast_total_budget_summary` compara esse teto ao custo somado e apresenta o saldo e o percentual utilizado.
+
+```bash
+terraform -chdir=terraform plan -var="estimated_monthly_cost_usd=95" -var="monthly_growth_rate_percent=10" -var="forecast_months=3" -var="forecast_total_budget_usd=300"
+```
+
+No exemplo, a projeção acumula **314,45 USD** em três meses, acima do limite de 300 USD. Por padrão, isso gera apenas um aviso no resultado. Para impedir o plano:
+
+```bash
+terraform -chdir=terraform plan -var="estimated_monthly_cost_usd=95" -var="monthly_growth_rate_percent=10" -var="forecast_months=3" -var="forecast_total_budget_usd=300" -var="enforce_forecast_total_budget=true"
+```
+
+O valor `0` desativa a comparação total, mas **não é permitido** quando `enforce_forecast_total_budget=true`. Um custo exatamente igual ao teto é aceito. Esse controle é independente das opções que validam cada mês e utiliza somente estimativas manuais, não gastos reais.
+
 ### Alertas antecipados de orçamento
 
 A variável `budget_warning_threshold_percent` define em qual percentual do teto mensal o sistema começa a alertar (padrão: **80%**, intervalo: 0 a 100). O controle é **informativo** e não impede o plano:
