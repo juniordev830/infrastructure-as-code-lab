@@ -39,6 +39,23 @@ O limite protege somente a validação do plano neste laboratório. Os números 
 
 O recurso de previsão é informativo; a proteção opcional do plano considera apenas o custo do primeiro mês.
 
+## Cenários de rateio por serviços
+
+- Serviços `api=60` e `database=40` com total `100`: status `matched`, parcelas de 60% e 40%.
+- Serviços totalizando `100` com estimativa `150`: status `underallocated`; a diferença precisa ser `-50`.
+- Total alocado acima da estimativa: status `overallocated`.
+- Sem serviços: status `not_configured`, mesmo quando a estimativa total é zero.
+- Com `enforce_allocation_match=true`, bloquear plano sem serviços ou com soma diferente do total.
+- Rejeitar valores negativos, nomes inválidos e mais de 25 serviços; não dividir por zero em rateio zerado.
+
+## Cenários de risco no horizonte
+
+- Valor inicial 95, crescimento mensal 10%, orçamento 100 e horizonte de 3 meses: acumulado `314.45`, pico `114.95`, excesso em meses 2 e 3.
+- Valor igual ao orçamento não é excesso.
+- Sem orçamento, risco agregado permanece `not_configured`.
+- Com crescimento negativo, sinalizar o primeiro mês se ele já ultrapassar o orçamento.
+- Um horizonte de apenas um mês deve continuar válido.
+
 ## Próximo incremento fundamentado
 
 Manter plano reproduzível sem cloud. Só adicionar provedores de verdade com conta de testes, política de custos e limpeza documentada.
