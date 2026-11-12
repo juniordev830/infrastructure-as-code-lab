@@ -37,7 +37,17 @@ O limite protege somente a validação do plano neste laboratório. Os números 
 - Sem orçamento definido: `exceeds_budget` deve permanecer `null`.
 - Rejeitar `forecast_months` igual a zero ou fracionário e crescimento fora do intervalo permitido.
 
-O recurso de previsão é informativo; a proteção opcional do plano considera apenas o custo do primeiro mês.
+A projeção é informativa por padrão. O controle `enforce_budget_limit` valida somente o mês inicial; `enforce_forecast_budget_limit` pode opcionalmente bloquear excessos em qualquer mês futuro.
+
+## Cenários do bloqueio por horizonte
+
+- Sem `enforce_forecast_budget_limit`, o plano deve permitir meses acima do orçamento e informá-los em `forecast_risk_summary`.
+- Com a proteção ativa, o cenário inicial 95 USD, orçamento 100 USD, crescimento 10% e 3 meses deve falhar (excesso a partir do mês 2).
+- Estimativa inicial 60 USD com crescimento de 10% e orçamento 100 USD deve permitir planejamento em 3 meses.
+- Orçamento ausente ou zero deve impedir o plano quando o bloqueio futuro estiver ativado.
+- Igualdade exata com o limite é permitida.
+- Quando o primeiro mês estiver acima do limite e os custos forem decrescentes, o plano ainda deve falhar.
+- As opções `enforce_budget_limit` e `enforce_forecast_budget_limit` não devem ativar uma à outra implicitamente.
 
 ## Cenários de rateio por serviços
 
