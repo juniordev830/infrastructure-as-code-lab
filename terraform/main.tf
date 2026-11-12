@@ -34,5 +34,13 @@ resource "terraform_data" "environment" {
       )
       error_message = "Forecast enforcement requires a positive monthly_budget_usd and no projected month above the monthly budget."
     }
+
+    precondition {
+      condition = (
+        !var.enforce_forecast_total_budget ||
+        (var.forecast_total_budget_usd > 0 && local.forecast_total_usd <= var.forecast_total_budget_usd)
+      )
+      error_message = "Cumulative forecast enforcement requires a positive forecast_total_budget_usd and no total projected cost above it."
+    }
   }
 }
