@@ -84,6 +84,14 @@ O `allocation_summary` apresenta o total alocado, diferença para a estimativa, 
 
 Esses valores são inseridos manualmente, não representam dados reais de faturamento e não criam recursos de nuvem.
 
+### Resumo de riscos da projeção
+
+O `forecast_risk_summary` resume os meses simulados: custo acumulado, maior estimativa mensal, meses que ultrapassariam o teto e primeiro mês com excesso.
+
+Por exemplo, com valor inicial de 95 USD, crescimento de 10%, orçamento de 100 USD e três meses, a simulação retorna **314,45 USD acumulados**, maior mês de **114,95 USD** e excesso começando no mês **2**. Quando o orçamento é zero, o status fica `not_configured` e nenhum mês é marcado como excesso.
+
+Esses cálculos são orientativos; não recuperam faturas nem substituem um monitoramento real de custos.
+
 ## Segurança e limitações
 
 MVP não provisiona máquinas, redes nem recursos cloud. Não versionar arquivos `.tfstate` e credenciais. Use `terraform plan` antes de qualquer `apply` em projetos reais.
