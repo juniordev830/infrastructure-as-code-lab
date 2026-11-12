@@ -25,7 +25,7 @@ locals {
   monthly_projection = [
     for month in range(1, var.forecast_months + 1) : {
       month              = month
-      projected_cost_usd = round(var.estimated_monthly_cost_usd * pow(1 + var.monthly_growth_rate_percent / 100, month - 1) * 100) / 100
+      projected_cost_usd = floor(var.estimated_monthly_cost_usd * pow(1 + var.monthly_growth_rate_percent / 100, month - 1) * 100 + 0.5) / 100
     }
   ]
 }
