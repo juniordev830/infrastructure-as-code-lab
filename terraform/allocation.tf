@@ -39,14 +39,14 @@ locals {
 output "allocation_summary" {
   description = "Offline allocation of manually entered estimates by service, with reconciliation against the total."
   value = {
-    status                  = local.allocation_status
-    enforcement_enabled     = var.enforce_allocation_match
-    service_count           = length(var.service_costs_usd)
-    allocated_total_usd     = local.allocated_total_usd
-    estimated_total_usd     = var.estimated_monthly_cost_usd
-    difference_usd          = local.allocated_delta_usd
-    reconciled              = length(var.service_costs_usd) > 0 && local.allocation_matches
-    services                = {
+    status              = local.allocation_status
+    enforcement_enabled = var.enforce_allocation_match
+    service_count       = length(var.service_costs_usd)
+    allocated_total_usd = local.allocated_total_usd
+    estimated_total_usd = var.estimated_monthly_cost_usd
+    difference_usd      = local.allocated_delta_usd
+    reconciled          = length(var.service_costs_usd) > 0 && local.allocation_matches
+    services = {
       for name, cost in var.service_costs_usd : name => {
         monthly_cost_usd = cost
         share_percent    = local.allocated_total_usd == 0 ? null : floor(cost / local.allocated_total_usd * 10000 + 0.5) / 100
