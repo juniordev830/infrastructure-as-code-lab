@@ -35,6 +35,20 @@ terraform -chdir=terraform plan -var="estimated_monthly_cost_usd=80" -var="month
 
 O `budget_summary` mostra o status `within_budget`, `over_budget` ou `not_configured`, a diferença entre orçamento e custo previsto e `utilization_percent` (percentual utilizado). Quando o orçamento é zero, `remaining_usd` e `utilization_percent` são `null` para evitar divisão por zero. Valores acima do teto **não bloqueiam** o plano: a saída é apenas um aviso analítico. Os testes em `terraform/tests/budget.tftest.hcl` cobrem limites e validações.
 
+### Bloqueio opcional no plano
+
+Por padrão, o resultado continua **informativo**: o plano é permitido mesmo quando a estimativa supera o orçamento. Para ativar uma proteção **local e explícita**, use `enforce_budget_limit=true`:
+
+```bash
+terraform -chdir=terraform plan -var="estimated_monthly_cost_usd=80" -var="monthly_budget_usd=100" -var="enforce_budget_limit=true"
+```
+
+Quando a proteção está ativada, `terraform plan` falha se o teto estiver ausente ou for zero, ou se a estimativa ultrapassar o teto. A igualdade com o limite é aceita. A propriedade `budget_summary.enforcement_enabled` informa o modo configurado.
+
+Para conferir a rejeição, altere a estimativa de `80` para `120` no comando acima. Não é necessário executar `apply`. Os testes automatizados cobrem o modo informativo, a igualdade, valores abaixo/acima do teto e orçamento não configurado.
+
+> **Importante:** o controle compara números fornecidos manualmente; não consulta gastos reais, não impede cobranças externas e não provisiona infraestrutura.
+
 ## Segurança e limitações
 
 MVP não provisiona máquinas, redes nem recursos cloud. Não versionar arquivos `.tfstate` e credenciais. Use `terraform plan` antes de qualquer `apply` em projetos reais.
