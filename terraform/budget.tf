@@ -22,6 +22,12 @@ variable "monthly_budget_usd" {
   }
 }
 
+variable "enforce_budget_limit" {
+  description = "When true, reject plans without a positive budget or with an estimate above it."
+  type        = bool
+  default     = false
+}
+
 locals {
   budget_status = var.monthly_budget_usd == 0 ? "not_configured" : (
     var.estimated_monthly_cost_usd > var.monthly_budget_usd ? "over_budget" : "within_budget"
@@ -33,6 +39,7 @@ output "budget_summary" {
   value = {
     estimated_monthly_cost_usd = var.estimated_monthly_cost_usd
     monthly_budget_usd         = var.monthly_budget_usd
+    enforcement_enabled        = var.enforce_budget_limit
     status                     = local.budget_status
     remaining_usd              = var.monthly_budget_usd == 0 ? null : var.monthly_budget_usd - var.estimated_monthly_cost_usd
     utilization_percent        = var.monthly_budget_usd == 0 ? null : var.estimated_monthly_cost_usd / var.monthly_budget_usd * 100
