@@ -73,6 +73,18 @@ Esse exemplo falha, pois os meses 2 e 3 excedem 100 USD. Com `enforce_forecast_b
 
 As proteções são independentes: `enforce_budget_limit` verifica só o mês inicial e `enforce_forecast_budget_limit` verifica o horizonte inteiro. Nenhuma delas controla despesas reais em provedores de nuvem.
 
+### Alertas antecipados de orçamento
+
+A variável `budget_warning_threshold_percent` define em qual percentual do teto mensal o sistema começa a alertar (padrão: **80%**, intervalo: 0 a 100). O controle é **informativo** e não impede o plano:
+
+```bash
+terraform -chdir=terraform plan -var="estimated_monthly_cost_usd=95" -var="monthly_budget_usd=100" -var="monthly_growth_rate_percent=10" -var="forecast_months=3" -var="budget_warning_threshold_percent=80"
+```
+
+O resultado `forecast_warning_summary` informa os meses próximos do limite e a condição geral `healthy`, `warning`, `over_budget` ou `not_configured`. No exemplo, o mês **1** recebe aviso de aproximação e os meses **2 e 3** ultrapassam o teto. O status geral é `over_budget`, sem confundir aviso com excesso.
+
+Quando não há orçamento, não são gerados alertas. Uma estimativa exatamente igual ao teto é um aviso, não um excesso. Os avisos são calculados exclusivamente sobre estimativas fornecidas manualmente.
+
 ### Rateio por serviço e conciliação offline
 
 Use `service_costs_usd` para distribuir uma estimativa mensal por até 25 serviços e verificar se a soma bate com `estimated_monthly_cost_usd`. As chaves dos serviços devem conter letras minúsculas, números ou hifens.
