@@ -12,6 +12,9 @@ service_name = "demo-api"
 # forecast_months             = 3
 # enforce_forecast_budget_limit = false
 # budget_warning_threshold_percent = 80
+# Optional total cap over the entire forecast horizon.
+# forecast_total_budget_usd     = 300
+# enforce_forecast_total_budget = false
 
 # Optional offline allocation (service totals should match estimated_monthly_cost_usd).
 # service_costs_usd = {
