@@ -29,6 +29,16 @@ Validar valores de variáveis inválidos, ambientes fora do enum permitido, plan
 
 O limite protege somente a validação do plano neste laboratório. Os números são estimados e manuais; não substituem políticas de custo, IAM nem monitoramento de faturas.
 
+## Cenários de projeção mensal
+
+- Estimativa de 95 USD, orçamento de 100 USD, crescimento de 10% e três meses: conferir valores 95, 104,50 e 114,95.
+- Crescimento de 0%: todos os meses repetem a estimativa inicial.
+- Crescimento negativo: os valores devem diminuir de forma composta.
+- Sem orçamento definido: `exceeds_budget` deve permanecer `null`.
+- Rejeitar `forecast_months` igual a zero ou fracionário e crescimento fora do intervalo permitido.
+
+O recurso de previsão é informativo; a proteção opcional do plano considera apenas o custo do primeiro mês.
+
 ## Próximo incremento fundamentado
 
 Manter plano reproduzível sem cloud. Só adicionar provedores de verdade com conta de testes, política de custos e limpeza documentada.
