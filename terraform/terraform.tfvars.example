@@ -1,3 +1,8 @@
 environment = "development"
 owner = "engineering"
 service_name = "demo-api"
+
+# Optional offline budget exercise (manual values; no cloud credentials required).
+# estimated_monthly_cost_usd = 80
+# monthly_budget_usd         = 100
+# enforce_budget_limit       = true
