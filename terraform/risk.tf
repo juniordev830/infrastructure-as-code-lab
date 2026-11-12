@@ -1,3 +1,9 @@
+variable "enforce_forecast_budget_limit" {
+  description = "When enabled, reject a plan if any month in the offline cost forecast exceeds a positive monthly budget."
+  type        = bool
+  default     = false
+}
+
 # Summarize risks across the offline, manually estimated monthly projection.
 locals {
   forecast_budget_breaches = var.monthly_budget_usd == 0 ? [] : [
