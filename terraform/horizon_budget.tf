@@ -25,11 +25,11 @@ locals {
 output "forecast_total_budget_summary" {
   description = "Advisory comparison of manually projected cumulative costs against a period-wide cap."
   value = {
-    status                 = local.forecast_total_budget_status
-    total_budget_usd       = var.forecast_total_budget_usd
-    total_projected_usd    = local.forecast_total_usd
-    enforcement_enabled    = var.enforce_forecast_total_budget
-    remaining_usd          = var.forecast_total_budget_usd == 0 ? null : var.forecast_total_budget_usd - local.forecast_total_usd
-    utilization_percent    = var.forecast_total_budget_usd == 0 ? null : local.forecast_total_usd / var.forecast_total_budget_usd * 100
+    status              = local.forecast_total_budget_status
+    total_budget_usd    = var.forecast_total_budget_usd
+    total_projected_usd = local.forecast_total_usd
+    enforcement_enabled = var.enforce_forecast_total_budget
+    remaining_usd       = var.forecast_total_budget_usd == 0 ? null : var.forecast_total_budget_usd - local.forecast_total_usd
+    utilization_percent = var.forecast_total_budget_usd == 0 ? null : local.forecast_total_usd / var.forecast_total_budget_usd * 100
   }
 }
