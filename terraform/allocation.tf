@@ -25,7 +25,7 @@ variable "enforce_allocation_match" {
 }
 
 locals {
-  allocated_total_usd = sum(values(var.service_costs_usd))
+  allocated_total_usd = length(var.service_costs_usd) == 0 ? 0 : sum(values(var.service_costs_usd))
   allocated_delta_usd = local.allocated_total_usd - var.estimated_monthly_cost_usd
   allocation_matches  = abs(local.allocated_delta_usd) < 0.005
 
