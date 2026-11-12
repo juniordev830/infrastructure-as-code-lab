@@ -59,7 +59,19 @@ terraform -chdir=terraform plan -var="estimated_monthly_cost_usd=95" -var="month
 
 A saída `forecast_summary.monthly_projection` calcula a partir do primeiro mês **95,00 → 104,50 → 114,95 USD**. Cada mês possui o campo `exceeds_budget`; ele fica `null` quando não há orçamento definido. A taxa aceita entre -100% e 100% e os valores são arredondados a centavos.
 
-O bloqueio `enforce_budget_limit`, quando ativado, verifica **somente o custo estimado inicial**, não meses futuros. A projeção é um alerta ilustrativo, não uma previsão de faturas reais.
+O bloqueio `enforce_budget_limit`, quando ativado, verifica **somente o custo estimado inicial**. O bloqueio futuro é configurado separadamente com `enforce_forecast_budget_limit`, descrito abaixo. A projeção usa estimativas manuais, não uma previsão de faturas reais.
+
+### Bloqueio opcional de excesso em meses futuros
+
+Para **impedir o plano se qualquer mês projetado ultrapassar o teto**, ative a proteção do horizonte:
+
+```bash
+terraform -chdir=terraform plan -var="estimated_monthly_cost_usd=95" -var="monthly_budget_usd=100" -var="monthly_growth_rate_percent=10" -var="forecast_months=3" -var="enforce_forecast_budget_limit=true"
+```
+
+Esse exemplo falha, pois os meses 2 e 3 excedem 100 USD. Com `enforce_forecast_budget_limit=false` (padrão), o resultado continua informativo. Quando a proteção está ativa, é obrigatório definir `monthly_budget_usd` maior que zero, e **todos os meses** precisam ficar no limite ou abaixo dele. O campo `forecast_risk_summary.enforcement_enabled` informa se a proteção está ligada.
+
+As proteções são independentes: `enforce_budget_limit` verifica só o mês inicial e `enforce_forecast_budget_limit` verifica o horizonte inteiro. Nenhuma delas controla despesas reais em provedores de nuvem.
 
 ### Rateio por serviço e conciliação offline
 
