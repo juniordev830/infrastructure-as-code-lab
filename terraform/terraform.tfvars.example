@@ -10,3 +10,10 @@ service_name = "demo-api"
 # Optional compounded forecast (1-24 months; percentages from -100 to 100).
 # monthly_growth_rate_percent = 10
 # forecast_months             = 3
+
+# Optional offline allocation (service totals should match estimated_monthly_cost_usd).
+# service_costs_usd = {
+#   api      = 60
+#   database = 40
+# }
+# enforce_allocation_match = false
