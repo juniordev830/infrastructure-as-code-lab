@@ -2,10 +2,10 @@ run "flat_forecast_preserves_baseline" {
   command = plan
 
   variables {
-    forecast_months            = 3
+    forecast_months             = 3
     monthly_growth_rate_percent = 0
-    estimated_monthly_cost_usd = 80
-    monthly_budget_usd         = 100
+    estimated_monthly_cost_usd  = 80
+    monthly_budget_usd          = 100
   }
 
   assert {
@@ -24,10 +24,10 @@ run "compounding_growth_flags_future_overage" {
   command = plan
 
   variables {
-    forecast_months            = 3
+    forecast_months             = 3
     monthly_growth_rate_percent = 10
-    estimated_monthly_cost_usd = 95
-    monthly_budget_usd         = 100
+    estimated_monthly_cost_usd  = 95
+    monthly_budget_usd          = 100
   }
 
   assert {
@@ -46,9 +46,9 @@ run "negative_growth_reduces_forecast" {
   command = plan
 
   variables {
-    forecast_months            = 3
+    forecast_months             = 3
     monthly_growth_rate_percent = -10
-    estimated_monthly_cost_usd = 100
+    estimated_monthly_cost_usd  = 100
   }
 
   assert {
