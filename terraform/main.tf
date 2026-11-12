@@ -18,5 +18,13 @@ resource "terraform_data" "environment" {
       )
       error_message = "Budget enforcement requires a positive monthly_budget_usd and an estimated_monthly_cost_usd not exceeding it."
     }
+
+    precondition {
+      condition = (
+        !var.enforce_allocation_match ||
+        (length(var.service_costs_usd) > 0 && local.allocation_matches)
+      )
+      error_message = "Allocation enforcement requires at least one service and a total matching estimated_monthly_cost_usd."
+    }
   }
 }
