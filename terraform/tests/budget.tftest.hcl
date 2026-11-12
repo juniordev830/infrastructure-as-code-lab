@@ -77,3 +77,73 @@ run "invalid_estimate_is_rejected" {
 
   expect_failures = [var.estimated_monthly_cost_usd]
 }
+
+run "over_budget_is_advisory_by_default" {
+  command = plan
+
+  variables {
+    estimated_monthly_cost_usd = 150
+    monthly_budget_usd         = 100
+  }
+
+  assert {
+    condition     = output.budget_summary.status == "over_budget" && output.budget_summary.enforcement_enabled == false
+    error_message = "The default mode must preserve backwards-compatible advisory behavior."
+  }
+}
+
+run "enforced_budget_allows_lower_estimate" {
+  command = plan
+
+  variables {
+    enforce_budget_limit       = true
+    estimated_monthly_cost_usd = 75
+    monthly_budget_usd         = 100
+  }
+
+  assert {
+    condition = (
+      output.budget_summary.status == "within_budget" &&
+      output.budget_summary.enforcement_enabled == true &&
+      output.budget_summary.remaining_usd == 25
+    )
+    error_message = "An estimate below the configured limit must still be plannable."
+  }
+}
+
+run "enforced_budget_allows_exact_limit" {
+  command = plan
+
+  variables {
+    enforce_budget_limit       = true
+    estimated_monthly_cost_usd = 100
+    monthly_budget_usd         = 100
+  }
+
+  assert {
+    condition     = output.budget_summary.status == "within_budget" && output.budget_summary.remaining_usd == 0
+    error_message = "Equality with the budget must not block planning."
+  }
+}
+
+run "enforced_budget_rejects_overage" {
+  command = plan
+
+  variables {
+    enforce_budget_limit       = true
+    estimated_monthly_cost_usd = 101
+    monthly_budget_usd         = 100
+  }
+
+  expect_failures = [terraform_data.environment]
+}
+
+run "enforcement_requires_positive_budget" {
+  command = plan
+
+  variables {
+    enforce_budget_limit = true
+  }
+
+  expect_failures = [terraform_data.environment]
+}
