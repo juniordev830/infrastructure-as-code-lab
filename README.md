@@ -61,6 +61,29 @@ A saída `forecast_summary.monthly_projection` calcula a partir do primeiro mês
 
 O bloqueio `enforce_budget_limit`, quando ativado, verifica **somente o custo estimado inicial**, não meses futuros. A projeção é um alerta ilustrativo, não uma previsão de faturas reais.
 
+### Rateio por serviço e conciliação offline
+
+Use `service_costs_usd` para distribuir uma estimativa mensal por até 25 serviços e verificar se a soma bate com `estimated_monthly_cost_usd`. As chaves dos serviços devem conter letras minúsculas, números ou hifens.
+
+Em um arquivo `terraform/terraform.tfvars` local (ignorado pelo Git):
+
+```hcl
+estimated_monthly_cost_usd = 100
+monthly_budget_usd         = 120
+
+service_costs_usd = {
+  api      = 60
+  database = 40
+}
+
+# Opcional: impede o plano se a soma não corresponder ao total.
+enforce_allocation_match = true
+```
+
+O `allocation_summary` apresenta o total alocado, diferença para a estimativa, percentual por serviço e status `matched`, `underallocated`, `overallocated` ou `not_configured`. Quando `enforce_allocation_match=false` (padrão), a conciliação é informativa. Se ativada, exige ao menos um serviço e correspondência até o centavo.
+
+Esses valores são inseridos manualmente, não representam dados reais de faturamento e não criam recursos de nuvem.
+
 ## Segurança e limitações
 
 MVP não provisiona máquinas, redes nem recursos cloud. Não versionar arquivos `.tfstate` e credenciais. Use `terraform plan` antes de qualquer `apply` em projetos reais.
