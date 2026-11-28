@@ -1,5 +1,7 @@
 # Infrastructure as Code Lab
 
+**Navegação** · [Estado](#estado) · [Como executar](#como-executar) · [Testes](#testes) · [Código e estudo](docs/ENGENHARIA_REVERSA.md)
+
 Laboratório Terraform **sem provedor de nuvem e sem cobrança**: valida variáveis e mantém metadados de um ambiente usando `terraform_data`.
 
 ## Estado
@@ -146,3 +148,7 @@ Projeto de Engenharia de Software mantido na conta [juniordev830](https://github
 ## Guia para contribuir
 
 Veja o [roteiro de testes e manutenção](docs/GUIA_DE_VALIDACAO.md) para validar mudanças com comandos e cenários específicos deste projeto.
+
+## Código e roteiro de estudo
+
+O que a leitura de terraform plan permite verificar antes de mudar o estado local? O [guia de engenharia reversa](docs/ENGENHARIA_REVERSA.md) reúne o mapa dos módulos e uma pergunta técnica baseada no projeto.
